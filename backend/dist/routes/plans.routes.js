@@ -1,0 +1,14 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const auth_1 = require("../middleware/auth");
+const plans_controller_1 = require("../controllers/plans.controller");
+const r = (0, express_1.Router)();
+r.use(auth_1.authenticate);
+r.get('/', (0, auth_1.authorize)(['admin', 'supervisor', 'cobrador']), plans_controller_1.listPlans);
+r.get('/:id', (0, auth_1.authorize)(['admin', 'supervisor', 'cobrador']), plans_controller_1.getPlan);
+r.post('/', (0, auth_1.authorize)(['admin']), plans_controller_1.createOrUpdatePlan);
+r.put('/:id', (0, auth_1.authorize)(['admin']), plans_controller_1.createOrUpdatePlan);
+r.patch('/:id/toggle', (0, auth_1.authorize)(['admin']), plans_controller_1.togglePlan);
+r.delete('/:id', (0, auth_1.authorize)(['admin']), plans_controller_1.deletePlan);
+exports.default = r;

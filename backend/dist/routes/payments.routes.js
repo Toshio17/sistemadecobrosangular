@@ -1,0 +1,14 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const auth_1 = require("../middleware/auth");
+const payments_controller_1 = require("../controllers/payments.controller");
+const r = (0, express_1.Router)();
+r.use(auth_1.authenticate);
+r.get('/', (0, auth_1.authorize)(['admin', 'cobrador', 'supervisor']), payments_controller_1.listMensualidades);
+r.post('/', (0, auth_1.authorize)(['admin']), payments_controller_1.createMensualidad);
+r.post('/:id/pagar', (0, auth_1.authorize)(['admin', 'cobrador']), payments_controller_1.markPago);
+r.post('/pago-directo', (0, auth_1.authorize)(['admin', 'cobrador']), payments_controller_1.createPagoDirecto);
+r.get('/export.csv', (0, auth_1.authorize)(['admin', 'supervisor']), payments_controller_1.exportCsv);
+r.post('/mark-vencidos', (0, auth_1.authorize)(['admin', 'supervisor']), payments_controller_1.markVencidos);
+exports.default = r;

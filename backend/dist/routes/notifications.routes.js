@@ -1,0 +1,10 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const auth_1 = require("../middleware/auth");
+const notifications_controller_1 = require("../controllers/notifications.controller");
+const r = (0, express_1.Router)();
+r.use(auth_1.authenticate);
+r.post('/morosos/mass', (0, auth_1.authorize)(['admin', 'supervisor']), notifications_controller_1.sendMassToMorosos);
+r.get('/logs', (0, auth_1.authorize)(['admin', 'supervisor']), notifications_controller_1.listLogs);
+exports.default = r;

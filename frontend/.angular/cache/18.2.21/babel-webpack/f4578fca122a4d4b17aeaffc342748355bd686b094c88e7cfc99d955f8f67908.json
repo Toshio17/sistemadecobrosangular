@@ -1,0 +1,1 @@
+{"ast":null,"code":"import { inject } from '@angular/core';\nimport { AuthService } from './auth.service';\nexport const RoleGuard = route => {\n  const auth = inject(AuthService);\n  const roles = route.data?.roles;\n  return auth.hasRole(roles || []);\n};","map":null,"metadata":{},"sourceType":"module","externalDependencies":[]}

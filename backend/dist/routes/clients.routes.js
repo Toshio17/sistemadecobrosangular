@@ -1,0 +1,15 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const auth_1 = require("../middleware/auth");
+const clients_controller_1 = require("../controllers/clients.controller");
+const r = (0, express_1.Router)();
+r.use(auth_1.authenticate);
+r.get('/', (0, auth_1.authorize)(['admin', 'cobrador', 'supervisor']), clients_controller_1.listClients);
+r.get('/:id', (0, auth_1.authorize)(['admin', 'cobrador', 'supervisor']), clients_controller_1.getClient);
+r.post('/', (0, auth_1.authorize)(['admin']), clients_controller_1.createOrUpdateClient);
+r.put('/:id', (0, auth_1.authorize)(['admin']), clients_controller_1.createOrUpdateClient);
+r.patch('/:id/toggle', (0, auth_1.authorize)(['admin']), clients_controller_1.toggleClient);
+r.delete('/:id', (0, auth_1.authorize)(['admin']), clients_controller_1.deleteClient);
+r.post('/resolve', (0, auth_1.authorize)(['admin', 'cobrador', 'supervisor']), clients_controller_1.resolveClient);
+exports.default = r;
