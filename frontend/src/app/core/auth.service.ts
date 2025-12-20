@@ -14,6 +14,12 @@ export class AuthService {
       tap(r => { this.token = r.token; this.role = r.role })
     )
   }
+  register(data: any) {
+    return this.http.post('/auth/register', data)
+  }
+  requestPasswordReset(username: string) {
+    return this.http.post('/auth/forgot-password', { username })
+  }
   isAuthenticated() { return !!this.token }
   hasRole(roles: string[]) { return this.role ? roles.includes(this.role) : false }
 }
