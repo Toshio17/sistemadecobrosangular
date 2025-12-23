@@ -14,6 +14,9 @@ export class AuthService {
       tap(r => { this.token = r.token; this.role = r.role })
     )
   }
+  register(username: string, password: string, role: string) {
+    return this.http.post('/auth/register', { username, password, role })
+  }
   isAuthenticated() { return !!this.token }
   hasRole(roles: string[]) { return this.role ? roles.includes(this.role) : false }
 }

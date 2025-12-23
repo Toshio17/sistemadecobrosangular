@@ -31,6 +31,7 @@ CREATE TABLE IF NOT EXISTS mensualidades (
   estado ENUM('pendiente','pagado','vencido') NOT NULL,
   fecha_pago DATE NULL,
   monto_pagado DECIMAL(10,2) NULL,
+  metodo_pago ENUM('yape','plin','tarjeta','transferencia','efectivo') NULL,
   FOREIGN KEY (cliente_id) REFERENCES clientes(id)
 );
 

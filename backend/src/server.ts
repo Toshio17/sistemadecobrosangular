@@ -8,8 +8,12 @@ const port = Number(process.env.PORT || 4000)
 async function start() {
   try {
     await getPool().query('SELECT 1')
-    app.listen(port, () => {})
+    console.log('Database connected successfully')
+    app.listen(port, () => {
+      console.log(`Server running on port ${port}`)
+    })
   } catch (err) {
+    console.error('Failed to start server:', err)
     process.exit(1)
   }
 }

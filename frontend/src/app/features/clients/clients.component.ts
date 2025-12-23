@@ -201,12 +201,26 @@ export class ClientsComponent {
   onPage(e: PageEvent) { this.page = e.pageIndex + 1; this.size = e.pageSize; this.load() }
   onSort(e: Sort) { this.sort = e.active; this.dir = e.direction === 'asc' ? 'asc' : 'desc'; this.firstPageAndLoad() }
   validar() {
-    const { tipo_doc, nro_doc } = this.form.value as any
-    this.validationMessage = ''
+    this.validationMessage = 'Validando...'
     this.validationOk = false
-    this.http.post('/clients/resolve', { tipo_doc, nro_doc }).subscribe({
-      next: (data: any) => { this.form.patchValue(data); this.validationOk = true; this.validationMessage = 'Datos autocompletados desde API Perú' },
-      error: () => { this.validationOk = false; this.validationMessage = 'No se pudo validar' }
+    const { tipo_doc, nro_doc } = this.form.value
+    this.http.post<any>('/clients/resolve', { tipo_doc, nro_doc }).subscribe({
+      next: (d) => {
+        this.validationMessage = 'Datos encontrados'
+        this.validationOk = true
+        this.form.patchValue({
+          nombres: d.nombres,
+          apellidos: d.apellidos,
+          razon_social: d.razon_social,
+          direccion: d.direccion,
+          estado: d.estado,
+          condicion: d.condicion
+        })
+      },
+      error: () => {
+        this.validationMessage = 'No se encontraron datos o error en consulta'
+        this.validationOk = false
+      }
     })
   }
   openModal() {

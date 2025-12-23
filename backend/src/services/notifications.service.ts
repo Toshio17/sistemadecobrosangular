@@ -10,6 +10,10 @@ type PaymentPayload = {
 }
 
 async function postWasapi(path: string, body: any) {
+  if (!process.env.WASAPI_URL || !process.env.WASAPI_TOKEN) {
+    console.warn('WASAPI credentials not found, skipping notification')
+    return null
+  }
   const url = `${process.env.WASAPI_URL}${path}`
   const r = await axios.post(url, body, { headers: { Authorization: `Bearer ${process.env.WASAPI_TOKEN}` } })
   return r.data
