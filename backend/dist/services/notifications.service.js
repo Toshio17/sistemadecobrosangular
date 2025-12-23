@@ -7,6 +7,10 @@ exports.sendPaymentNotification = sendPaymentNotification;
 const axios_1 = __importDefault(require("axios"));
 const db_1 = require("./db");
 async function postWasapi(path, body) {
+    if (!process.env.WASAPI_URL || !process.env.WASAPI_TOKEN) {
+        console.warn('WASAPI credentials not found, skipping notification');
+        return null;
+    }
     const url = `${process.env.WASAPI_URL}${path}`;
     const r = await axios_1.default.post(url, body, { headers: { Authorization: `Bearer ${process.env.WASAPI_TOKEN}` } });
     return r.data;
